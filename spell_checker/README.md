@@ -1,10 +1,11 @@
 "# task-spell-checker" 
 
-Программа происка орфографических ошибок
+Search for spelling errors
 
-"sp_ck_dictV3" - создание словаря
+"sp_ck_dictV3" - make dictionary
 
-"spell_checkerV3" - сам спелл чекер
+"spell_checkerV3" - it's spell checker
 
-Ковтун Екатерина МЕН - 191015 КБ - 101
+Kovtun Ekaterina MEN - 191015 KB - 101
+
 "# task-spell-checker" 
