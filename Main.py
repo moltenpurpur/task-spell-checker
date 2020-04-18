@@ -55,11 +55,6 @@ class Main:
                 word)
         print(result_string)
 
-        test = [['раздраженно', ' 3'], ['раздражена', ' 3, 10-11']]
-        print(
-            spell_checker.SpellChecker.write_possible_mistakes('расдраженно',
-                                                               test))
-
 
 if __name__ == '__main__':
     Main.main()
