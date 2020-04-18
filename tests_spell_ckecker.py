@@ -4,7 +4,7 @@ import Main
 import spell_checker
 
 
-class TestsMain(unittest.TestCase):
+class TestMain(unittest.TestCase):
     def test_make_correct_line(self):
         test = 'праверка пр0шла бесуспешн1, зочеm вы ее ночинали?'
         self.correct_line = Main.Main.make_correct_line(test)
@@ -33,7 +33,7 @@ class TestsMain(unittest.TestCase):
         pass
 
 
-class TestsSpellChecker(unittest.TestCase):
+class TestSpellChecker(unittest.TestCase):
     def test_spell_checker(self):
         test_dict = {'апф': ['обв'], 'а': ['о'], 'ап': ['об']}
         test_litter_d = {'о': ['а'], 'a': ['a']}
@@ -130,5 +130,28 @@ class TestsSpellChecker(unittest.TestCase):
         self.true = 'расдраженно - Some variants:\n' + (
             '    Mistake in 3 letter, maybe you mean -> раздраженно\n') + s
 
-    if __name__ == '__main__':
-        unittest.main()
+
+class TestDictionaryCompilation(unittest.TestCase):
+    def test_file_reader(self):
+        pass
+
+    def test_give_words_from_file(self):
+        pass
+
+    def test_find_words_in_line(self):
+        pass
+
+    def test_encoding_define(self):
+        pass
+
+    def test_create_dict(self):
+        pass
+
+    def test_write_in_file(self):
+        pass
+
+    def test_main(self):
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
