@@ -113,19 +113,22 @@ class TestsSpellChecker(unittest.TestCase):
         self.assertEqual(self.levenshtein, self.true)
 
     def test_write_mistake(self):
-        self.string = spell_checker.SpellChecker.write_mistakes('абв', ' 4',
-                                                                'абвг', None)
-        self.right_string = 'абв - Correct mistake in 4 letter -> абвг\n'
-        self.assertEqual(self.string, self.right_string)
+        self.string = spell_checker.SpellChecker.write_mistakes('пирок', ' 5',
+                                                                'пирог', None)
+        self.true = 'абв - Mistake in 4 letter, maybe you mean -> абвг\n'
+        self.assertEqual(self.string, self.true)
 
     def test_no_mistakes(self):
         self.string = spell_checker.SpellChecker.write_mistakes('абв', '', '',
                                                                 None)
-        self.right_string = ''
-        self.assertEqual(self.string, self.right_string)
+        self.true = ''
+        self.assertEqual(self.string, self.true)
 
-        def test_write_possible_mistakes(self):
-            pass
+    def test_write_possible_mistakes(self):
+        raz = 'раздражена'
+        s = f'    Mistakes in 3, 10 - 11 letters, maybe you mean -> {raz}\n'
+        self.true = 'расдраженно - Some variants:\n' + (
+            '    Mistake in 3 letter, maybe you mean -> раздраженно\n') + s
 
     if __name__ == '__main__':
         unittest.main()
