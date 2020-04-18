@@ -2,9 +2,11 @@
 
 Search for spelling errors
 
-"sp_ck_dictV3" - make dictionary
+"dictionary_compilation" - make dictionary
 
-"spell_checkerV3" - it's spell checker
+"spell_checker" - it's spell checker
+
+"Main" - starts the program
 
 Kovtun Ekaterina MEN - 191015 KB - 101
 
