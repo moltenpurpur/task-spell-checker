@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 import unittest
 import Main
 import spell_checker
@@ -12,7 +11,7 @@ class TestMain(unittest.TestCase):
                      'ночинали']
         self.assertEqual(self.correct_line, self.true)
 
-    def test_create_dictionary_add(self):
+    def test_create_dictionary(self):
         pass
 
     def test_make_list(self):
