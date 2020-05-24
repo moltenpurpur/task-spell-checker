@@ -48,7 +48,7 @@ def create_dict(correct_test_words):
 def write_in_file(dictionary):
     for key in dictionary.keys():
         key_word = dictionary.get(key)
-        with open(Main.DICTIONARY, 'a', encoding='utf8') as file_dict:
+        with open(Main.DICTIONARY, 'w', encoding='utf8') as file_dict:
             file_dict.write(key + ': ' + key_word + '\n')
 
 

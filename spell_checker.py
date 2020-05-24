@@ -2,12 +2,14 @@ import re
 import NGrams
 import Main
 
-NGRAMS = {
-    1: NGrams.ALPH, 2: NGrams.BIGRAMS, 3: NGrams.TRIGRAMS, 4: NGrams.FOURGRAMS
-}
+NGRAMS = {1: NGrams.ALPH,
+          2: NGrams.BIGRAMS,
+          3: NGrams.TRIGRAMS,
+          4: NGrams.FOURGRAMS}
 
 
 class SpellChecker:
+
     @staticmethod
     def spell_checker(big_dict, letter_dict, word):
         correct = []

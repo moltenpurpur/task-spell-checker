@@ -5,6 +5,7 @@ DICTIONARY = r'dictionary.txt'
 
 
 class Main:
+
     @staticmethod
     def make_correct_line(line):
         return re.compile('[^а-яА-ЯёЁ\\- ]').sub('', line).split()
@@ -41,8 +42,7 @@ class Main:
 
     @staticmethod
     def main():
-        print('enter words or sentences:')
-        line = input()
+        line = input('enter words or sentences:')
         result_string = ''
         line = Main.make_correct_line(line)
         dictionary = Main.create_dictionary()
