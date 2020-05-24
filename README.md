@@ -1,13 +1,12 @@
-"# task-spell-checker" 
+## task-spell-checker
 
-Search for spelling errors
+#### Search for spelling errors
 
-"dictionary_compilation" - make dictionary
+* "dictionary_compilation" - make dictionary
 
-"spell_checker" - it's spell checker
+* "spell_checker" - it's spell checker
 
-"Main" - starts the program
+* "Main" - starts the program
 
-Kovtun Ekaterina MEN - 191015 KB - 101
+*Kovtun Ekaterina MEN - 191015 KB - 101*
 
-"# task-spell-checker" 
