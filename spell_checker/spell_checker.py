@@ -1,5 +1,5 @@
 import re
-from spell_checker import n_grams
+from spell_checker import n_grams, utils
 import main
 
 NGRAMS = {1: n_grams.ALPH,
@@ -13,7 +13,7 @@ def spell_checker(big_dict, letter_dict, word):
     word = word.lower()
     wrong_teg = make_teg(word)
     if big_dict.get(wrong_teg):
-        words = main.Main.make_list(big_dict.get(wrong_teg))
+        words = utils.make_list(big_dict.get(wrong_teg))
         correct += words
     else:
         for teg in big_dict.keys():
@@ -23,7 +23,7 @@ def spell_checker(big_dict, letter_dict, word):
                 continue
             test = levenshtein(wrong_teg, teg, False) == 1
             if test == 1:
-                words = main.Main.make_list(big_dict.get(teg))
+                words = utils.make_list(big_dict.get(teg))
                 correct += words
     minimum = float('inf')
     possible_mistakes = {}

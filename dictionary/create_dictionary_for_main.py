@@ -1,6 +1,6 @@
 from spell_checker import utils
 
-DICTIONARY = r'dictionary.txt'
+DICTIONARY = r'dictionary/dictionary.txt'
 
 
 def create_dictionary():
