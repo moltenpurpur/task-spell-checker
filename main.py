@@ -1,11 +1,11 @@
-# -*- coding: utf8 -*-
 import re
-import spell_checker
+from spell_checker import spell_checker
 
 DICTIONARY = r'dictionary.txt'
 
 
 class Main:
+
     @staticmethod
     def make_correct_line(line):
         return re.compile('[^а-яА-ЯёЁ\\- ]').sub('', line).split()
@@ -40,21 +40,16 @@ class Main:
                     dict_letters[word[0]] = [key[0]]
         return dict_letters
 
-    @staticmethod
-    def main():
-        print('enter words or sentences:')
-        line = input()
-        result_string = ''
-        line = Main.make_correct_line(line)
-        dictionary = Main.create_dictionary()
-        letter_dict = Main.letter_dictionary(dictionary)
-        for word in line:
-            result_string += spell_checker.SpellChecker.spell_checker(
-                dictionary,
-                letter_dict,
-                word)
-        print(result_string)
-
 
 if __name__ == '__main__':
-    Main.main()
+    line = input('enter words or sentences:')
+    result_string = ''
+    line = Main.make_correct_line(line)
+    dictionary = Main.create_dictionary()
+    letter_dict = Main.letter_dictionary(dictionary)
+    for word in line:
+        result_string += spell_checker.spell_checker(
+            dictionary,
+            letter_dict,
+            word)
+    print(result_string)
