@@ -1,7 +1,7 @@
 import re
 import os
-import spell_checker
-import Main
+from spell_checker import spell_checker
+import main
 
 LIBRARY = r'library\\'
 
@@ -35,7 +35,7 @@ def create_dict(correct_test_words):
     dictionary = {}
     for word in correct_test_words:
         word = word.lower()
-        teg = spell_checker.SpellChecker.make_teg(word)
+        teg = spell_checker.make_teg(word)
         if teg == '':
             continue
         if teg not in dictionary.keys():
@@ -48,16 +48,12 @@ def create_dict(correct_test_words):
 def write_in_file(dictionary):
     for key in dictionary.keys():
         key_word = dictionary.get(key)
-        with open(Main.DICTIONARY, 'w', encoding='utf8') as file_dict:
+        with open(main.DICTIONARY, 'w', encoding='utf8') as file_dict:
             file_dict.write(key + ': ' + key_word + '\n')
 
 
-def main():
+if __name__ == '__main__':
     files = os.listdir(LIBRARY)
     words = file_reader(files)
     dictionary = create_dict(words)
     write_in_file(dictionary)
-
-
-if __name__ == '__main__':
-    main()
