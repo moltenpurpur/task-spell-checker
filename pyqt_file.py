@@ -59,9 +59,7 @@ class MainWindow(QWidget):
         self.limit = self.set_lim.get_number() \
             if self.set_lim else float('inf')
         self.output_text.clear()
-        self.result_string = ''
         self.text = self.input_text.toPlainText()
-        self.output_text.clear()
         self.text = utils.make_correct_line(self.text)
 
         for word in self.text:
