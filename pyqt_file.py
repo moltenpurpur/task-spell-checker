@@ -1,3 +1,4 @@
+import re
 import shutil
 from PyQt5.QtWidgets import *
 import sys
@@ -58,15 +59,24 @@ class MainWindow(QWidget):
     def check(self):
         self.limit = self.set_lim.get_number() \
             if self.set_lim else float('inf')
-        self.output_text.clear()
         self.text = self.input_text.toPlainText()
         self.text = utils.make_correct_line(self.text)
+        self.output_text.clear()
+        self.result_string = ''
 
-        for word in self.text:
-            self.result_string += spell_checker.spell_checker(
-                self.dictionary,
-                self.letter_dict,
-                word)
+        if len(self.text) > self.limit:
+            limit_text = self.text[0:self.limit+1]
+            for word in limit_text:
+                self.result_string += spell_checker.spell_checker(
+                    self.dictionary,
+                    self.letter_dict,
+                    word)
+        else:
+            for word in self.text:
+                self.result_string += spell_checker.spell_checker(
+                    self.dictionary,
+                    self.letter_dict,
+                    word)
         self.output_text.append(self.result_string)
 
     def add_dictionary(self):
