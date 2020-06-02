@@ -40,12 +40,14 @@ def spell_checker(big_dict, letter_dict, word):
             correct_word = variant
             possible_mistakes[correct_word] = f
     if len(correct_words) > 2:
-        return write_mistakes(word, possible_mistakes.get(
-            correct_word),
-                              correct_word, correct_words)
+        return write_mistakes(word,
+                              correct_words,
+                              possible_mistakes.get(correct_word),
+                              correct_word)
     return write_mistakes(word,
+                          None,
                           possible_mistakes.get(correct_word),
-                          correct_word, None)
+                          correct_word)
 
 
 def make_teg(word):
@@ -114,13 +116,13 @@ def levenshtein(a, b, flag):
     return f[len(a)][len(b)]
 
 
-def write_mistakes(wrong, mistakes, correct, possible_variants):
+def write_mistakes(wrong, possible_variants, mistakes='', correct=''):
     if not mistakes:
         return f'{wrong} - Correct sentences\n'
     if possible_variants:
         return write_possible_mistakes(wrong,
                                        possible_variants)
-    s = 's' if int(re.compile('[^0-9]').sub('', mistakes)) > 10 else ''
+    s = 's' if int(re.sub(r'[^0-9]', '', mistakes)) > 10 else ''
     return f'{wrong} - Mistake{s} in{mistakes} letter{s}, ' \
            f'maybe you mean -> {correct}\n'
 
@@ -131,7 +133,7 @@ def write_possible_mistakes(wrong, possible_variants):
     for word in possible_variants:
         if word[1] == '':
             word[1] = ' ' + str(len(word[0]))
-        s = 's' if int(re.compile('[^0-9]').sub('', word[1])) > 10 else ''
+        s = 's' if int(re.sub(r'[^0-9]', '', word[1])) > 10 else ''
         string += f'    Mistake{s} in{word[1]} letter{s}, ' \
                   f'maybe you mean -> {word[0]}\n'
     return string

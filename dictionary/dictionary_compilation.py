@@ -1,7 +1,7 @@
 import re
 import os
 from spell_checker import spell_checker
-import main
+from dictionary import create_dictionary_for_main as cr_dict
 
 LIBRARY = r'library\\'
 
@@ -48,12 +48,16 @@ def create_dict(correct_test_words):
 def write_in_file(dictionary):
     for key in dictionary.keys():
         key_word = dictionary.get(key)
-        with open(main.DICTIONARY, 'w', encoding='utf8') as file_dict:
+        with open(cr_dict.DICTIONARY, 'w', encoding='utf8') as file_dict:
             file_dict.write(key + ': ' + key_word + '\n')
 
 
-if __name__ == '__main__':
+def main_dict():
     files = os.listdir(LIBRARY)
     words = file_reader(files)
     dictionary = create_dict(words)
     write_in_file(dictionary)
+
+
+if __name__ == '__main__':
+    main_dict()
