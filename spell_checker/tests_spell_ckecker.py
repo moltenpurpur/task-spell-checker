@@ -1,12 +1,12 @@
 import unittest
-import main
-from spell_checker import spell_checker
+from spell_checker import spell_checker, utils
+from dictionary import create_dictionary_for_main as cr_dict
 
 
 class TestMain(unittest.TestCase):
     def test_make_correct_line(self):
         test = 'праверка пр0шла бесуспешн1, зочеm вы ее ночинали?'
-        self.correct_line = main.Main.make_correct_line(test)
+        self.correct_line = utils.make_correct_line(test)
         self.true = ['праверка', 'пршла', 'бесуспешн', 'зоче', 'вы', 'ее',
                      'ночинали']
         self.assertEqual(self.correct_line, self.true)
@@ -16,14 +16,14 @@ class TestMain(unittest.TestCase):
 
     def test_make_list(self):
         test = 'праверка пр0шла бесуспешн1, зочеm вы ее ночинали?'
-        self.list = main.Main.make_list(test)
+        self.list = utils.make_list(test)
         self.true = ['праверка', 'пршла', 'бесуспешн', 'зоче', 'вы', 'ее',
                      'ночинали']
         self.assertEqual(self.list, self.true)
 
     def test_letter_dictionary(self):
         test = {'проверка': 'проверка'}
-        self.letter_dictionary = main.Main.letter_dictionary(test)
+        self.letter_dictionary = cr_dict.letter_dictionary(test)
         self.true = {'п': ['п'], 'р': ['п'], 'о': ['п'], 'в': ['п'],
                      'е': ['п'], 'к': ['п'], 'а': ['п']}
         self.assertEqual(self.letter_dictionary, self.true)
