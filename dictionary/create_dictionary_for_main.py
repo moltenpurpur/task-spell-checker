@@ -1,9 +1,9 @@
 from spell_checker import utils
 
-DICTIONARY = r'dictionary/dictionary.txt'
+DICTIONARY = r'dictionary.txt'
 
 
-def create_dictionary():
+def create_dictionary() -> dict:
     big_dict = {}
     with open(DICTIONARY, encoding='utf8') as file_dictionary:
         for line in file_dictionary:
@@ -13,7 +13,7 @@ def create_dictionary():
     return big_dict
 
 
-def letter_dictionary(big_dict):
+def letter_dictionary(big_dict: dict) -> dict:
     dict_letters = {}
     for key in big_dict.keys():
         for word in big_dict.get(key):

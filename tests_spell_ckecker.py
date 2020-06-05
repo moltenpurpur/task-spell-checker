@@ -44,7 +44,7 @@ class TestSpellChecker(unittest.TestCase):
 
     def test_make_teg(self):
         test = 'какое-тослово'
-        self.make_teg = spell_checker.make_teg(test)
+        self.make_teg = spell_checker.make_tag(test)
         self.true = 'какаитаслафа'
         self.assertEqual(self.make_teg, self.true)
 
@@ -54,7 +54,7 @@ class TestSpellChecker(unittest.TestCase):
         test_i = 1
         test_number = 1
         test_length = 6
-        self.part_tag = spell_checker.part_teg(test_spell_teg,
+        self.part_tag = spell_checker.part_tag(test_spell_teg,
                                                test_word, test_i,
                                                test_number,
                                                test_length)
@@ -112,14 +112,13 @@ class TestSpellChecker(unittest.TestCase):
         self.assertEqual(self.levenshtein, self.true)
 
     def test_write_mistake(self):
-        self.string = spell_checker.write_mistakes('пирок', ' 5',
-                                                   'пирог', None)
+        self.string = spell_checker.write_mistakes('абв', [], '4',
+                                                   'абвг')
         self.true = 'абв - Mistake in 4 letter, maybe you mean -> абвг\n'
         self.assertEqual(self.string, self.true)
 
     def test_no_mistakes(self):
-        self.string = spell_checker.write_mistakes('абв', '', '',
-                                                   None)
+        self.string = spell_checker.write_mistakes('абв', [], '', '')
         self.true = ''
         self.assertEqual(self.string, self.true)
 

@@ -6,21 +6,21 @@ from dictionary import create_dictionary_for_main as cr_dict
 LIBRARY = r'library\\'
 
 
-def file_reader(filename):
+def file_reader(filename: list) -> set:
     words = set()
     for file in filename:
         words = give_words_from_file(file)
     return words
 
 
-def give_words_from_file(file):
+def give_words_from_file(file: str) -> set:
     with open(LIBRARY + file, encoding="utf-8") as text:
         for line in text:
             words = find_words_in_line(line, words)
     return words
 
 
-def find_words_in_line(line, words):
+def find_words_in_line(line: str, words: set) -> set:
     reg = re.compile('[^а-яА-ЯёЁ\\- ]')
     line = reg.sub('', line)
     words_in_line = line.split()
@@ -31,11 +31,11 @@ def find_words_in_line(line, words):
     return words
 
 
-def create_dict(correct_test_words):
+def create_dict(correct_test_words: set) -> dict:
     dictionary = {}
     for word in correct_test_words:
         word = word.lower()
-        teg = spell_checker.make_teg(word)
+        teg = spell_checker.make_tag(word)
         if teg == '':
             continue
         if teg not in dictionary.keys():
@@ -45,7 +45,7 @@ def create_dict(correct_test_words):
     return dictionary
 
 
-def write_in_file(dictionary):
+def write_in_file(dictionary: dict):
     for key in dictionary.keys():
         key_word = dictionary.get(key)
         with open(cr_dict.DICTIONARY, 'w', encoding='utf8') as file_dict:
@@ -58,6 +58,3 @@ def main_dict():
     dictionary = create_dict(words)
     write_in_file(dictionary)
 
-
-if __name__ == '__main__':
-    main_dict()
