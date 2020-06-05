@@ -26,3 +26,4 @@ def letter_dictionary(big_dict: dict) -> dict:
             else:
                 dict_letters[word[0]] = [key[0]]
     return dict_letters
+#

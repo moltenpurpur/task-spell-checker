@@ -139,3 +139,4 @@ def write_possible_mistakes(wrong: str, possible_variants: list) -> str:
         result += f'    Mistake{apostrophe} in{word[1]} letter{apostrophe}, ' \
                   f'maybe you mean -> {word[0]}\n'
     return result
+#
