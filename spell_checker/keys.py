@@ -1,3 +1,6 @@
+##################
+#  does not work #
+##################
 import argparse
 from dictionary.create_dictionary_for_main import DICTIONARY
 from dictionary.dictionary_compilation import LIBRARY
@@ -48,4 +51,3 @@ def main_console():
             letter_dict,
             word)
     print(result_string)
-#
