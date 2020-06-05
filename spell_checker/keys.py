@@ -8,7 +8,7 @@ from dictionary import create_dictionary_for_main as create_dict
 from spell_checker import GUI, spell_checker, utils
 
 
-def parser_arguments():
+def parser_arguments(args):
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-dc', '--dictionary_compilation',
@@ -27,11 +27,11 @@ def parser_arguments():
     parser.add_argument('-c', '--console',
                         help='starts the program from the console')
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
-    if args.dictionary_compilation:
+    if args.dictionary_compilation != LIBRARY:
         print('dict_comp')
-    elif args.dictionary_export:
+    elif args.dictionary_export != DICTIONARY:
         print('dict_export')
     elif args.GUI:
         GUI.main_gui()
