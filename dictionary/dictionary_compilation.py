@@ -1,6 +1,6 @@
 import re
 import os
-from spell_checker import spell_checker
+from checker import spell_checker
 
 
 def file_reader(filename: list, library: str) -> set:

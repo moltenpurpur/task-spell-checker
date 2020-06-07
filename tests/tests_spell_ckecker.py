@@ -1,5 +1,5 @@
 import unittest
-from spell_checker import spell_checker, utils
+from checker import spell_checker, utils
 from dictionary import create_dictionary_for_main as cr_dict
 from dictionary import dictionary_compilation as dict_comp
 

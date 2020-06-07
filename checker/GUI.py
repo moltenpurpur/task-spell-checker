@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 import sys
 from dictionary import create_dictionary_for_main as create_dict
 from dictionary import dictionary_compilation
-from spell_checker import utils, spell_checker
+from checker import utils, spell_checker
 
 
 class MainWindow(QWidget):

@@ -1,5 +1,5 @@
 import re
-from spell_checker import n_grams, utils
+from checker import n_grams, utils
 
 NGRAMS = {1: n_grams.ALPH,
           2: n_grams.BIGRAMS,
