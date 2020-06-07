@@ -11,7 +11,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.grid = QGridLayout()
-        self.dictionary = create_dict.create_dictionary()
+        self.dictionary = create_dict.create_dictionary(r'dictionary.txt')
         self.letter_dict = create_dict.letter_dictionary(self.dictionary)
 
         self.input_label = QLabel('Input')
@@ -114,7 +114,7 @@ class AddDictionary(QMainWindow):
         file_name = QFileDialog.getOpenFileName(self, 'Find file', '',
                                                 'Text files (*.txt)')[0]
         try:
-            shutil.copy(file_name, dictionary_compilation.LIBRARY)
+            shutil.copy(file_name, r'library\\')
         except IOError as e:
             print("Unable to copy file. %s" % e)
         except:

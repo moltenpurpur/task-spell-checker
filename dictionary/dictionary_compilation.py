@@ -1,20 +1,17 @@
 import re
 import os
 from spell_checker import spell_checker
-from dictionary import create_dictionary_for_main as cr_dict
-
-LIBRARY = r'library\\'
 
 
-def file_reader(filename: list) -> set:
+def file_reader(filename: list, library: str) -> set:
     words = set()
     for file in filename:
-        words = give_words_from_file(file)
+        words = give_words_from_file(file, library)
     return words
 
 
-def give_words_from_file(file: str) -> set:
-    with open(LIBRARY + file, encoding="utf-8") as text:
+def give_words_from_file(file: str, library: str) -> set:
+    with open(library + file, encoding="utf-8") as text:
         for line in text:
             words = find_words_in_line(line, words)
     return words
@@ -45,16 +42,16 @@ def create_dict(correct_test_words: set) -> dict:
     return dictionary
 
 
-def write_in_file(dictionary: dict):
+def write_in_file(dictionary: dict, dict_path):
     for key in dictionary.keys():
         key_word = dictionary.get(key)
-        with open(cr_dict.DICTIONARY, 'w', encoding='utf8') as file_dict:
+        with open(dict_path, 'w', encoding='utf8') as file_dict:
             file_dict.write(key + ': ' + key_word + '\n')
 
 
-def main_dict():
-    files = os.listdir(LIBRARY)
-    words = file_reader(files)
+def main_dict(library: str, dict_path: str):
+    files = os.listdir(library)
+    words = file_reader(files, library)
     dictionary = create_dict(words)
-    write_in_file(dictionary)
+    write_in_file(dictionary, dict_path)
 

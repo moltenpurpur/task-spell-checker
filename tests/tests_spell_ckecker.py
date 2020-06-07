@@ -1,6 +1,7 @@
 import unittest
 from spell_checker import spell_checker, utils
 from dictionary import create_dictionary_for_main as cr_dict
+from dictionary import dictionary_compilation as dict_comp
 
 
 class TestMain(unittest.TestCase):
@@ -20,16 +21,6 @@ class TestMain(unittest.TestCase):
         self.true = ['праверка', 'пршла', 'бесуспешн', 'зоче', 'вы', 'ее',
                      'ночинали']
         self.assertEqual(self.list, self.true)
-
-    def test_letter_dictionary(self):
-        test = {'проверка': 'проверка'}
-        self.letter_dictionary = cr_dict.letter_dictionary(test)
-        self.true = {'п': ['п'], 'р': ['п'], 'о': ['п'], 'в': ['п'],
-                     'е': ['п'], 'к': ['п'], 'а': ['п']}
-        self.assertEqual(self.letter_dictionary, self.true)
-
-    def test_main(self):  # ???
-        pass
 
 
 class TestSpellChecker(unittest.TestCase):
@@ -130,26 +121,35 @@ class TestSpellChecker(unittest.TestCase):
 
 
 class TestDictionaryCompilation(unittest.TestCase):
-    def test_file_reader(self):
-        pass
-
-    def test_give_words_from_file(self):
-        pass
-
     def test_find_words_in_line(self):
-        pass
+        self.words = set()
+        self.line = 'Зачем ты начал эту проверку?'
+        self.word_find = dict_comp.find_words_in_line(self.line, self.words)
+        self.right = {'зачем', 'ты', 'начал', 'эту', 'проверку'}
+        self.assertEqual(self.word_find, self.right)
 
-    def test_encoding_define(self):
-        pass
+    def test_find_words_in_line_english(self):
+        self.words = set()
+        self.line = 'Зачем you начал this проверку?'
+        self.word_find = dict_comp.find_words_in_line(self.line, self.words)
+        self.right = {'зачем', 'начал', 'проверку'}
+        self.assertEqual(self.word_find, self.right)
 
-    def test_create_dict(self):
-        pass
 
-    def test_write_in_file(self):
-        pass
+class TestCreateDictionaryForMain(unittest.TestCase):
+    def test_create_dictionary(self):
+        self.correct_words = {'пурку': 'бурку',
+                              'сакасаф': ['заказав', 'заказов'],
+                              'кфас': 'квас'}
+        self.dict = cr_dict.create_dictionary(r'test_dict.txt')
+        self.assertEqual(self.dict, self.correct_words)
 
-    def test_main(self):
-        pass
+    def test_letter_dictionary(self):
+        test = {'проверка': 'проверка'}
+        self.letter_dictionary = cr_dict.letter_dictionary(test)
+        self.true = {'п': ['п'], 'р': ['п'], 'о': ['п'], 'в': ['п'],
+                     'е': ['п'], 'к': ['п'], 'а': ['п']}
+        self.assertEqual(self.letter_dictionary, self.true)
 
 
 if __name__ == '__main__':

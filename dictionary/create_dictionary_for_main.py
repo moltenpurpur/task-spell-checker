@@ -1,11 +1,9 @@
 from spell_checker import utils
 
-DICTIONARY = r'dictionary.txt'
 
-
-def create_dictionary() -> dict:
+def create_dictionary(dict_path: str) -> dict:
     big_dict = {}
-    with open(DICTIONARY, encoding='utf8') as file_dictionary:
+    with open(dict_path, encoding='utf8') as file_dictionary:
         for line in file_dictionary:
             spell_teg = line.strip().split(':')[0]
             words = line.strip().split(':')[1].lstrip()

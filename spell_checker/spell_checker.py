@@ -120,7 +120,8 @@ def levenshtein(string_a: str, string_b: str, flag: bool):
 def write_mistakes(wrong: str, possible_variants: list, mistakes='',
                    correct='') -> str:
     if not mistakes:
-        return f'{wrong} - Correct sentences\n'
+        return ''
+        # return f'{wrong} - Correct sentences\n'
     if possible_variants:
         return write_possible_mistakes(wrong,
                                        possible_variants)
