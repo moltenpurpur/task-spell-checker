@@ -6,7 +6,6 @@ from spell_checker import GUI, spell_checker, utils
 
 def parser_arguments(args):
     library_default = r'library\\'
-    dictionary_default = r'dictionary.txt'
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-dc', '--dictionary_compilation',
@@ -14,11 +13,6 @@ def parser_arguments(args):
                         type=str,
                         help='select .txt files to compile the dictionary '
                              '(Default: library//)')
-    parser.add_argument('-de', '--dictionary_export',
-                        default=dictionary_default,
-                        type=str,
-                        help='select a .txt file to transfer the dictionary '
-                             '(Default: dictionary.txt)')
     parser.add_argument('-g', '--GUI',
                         help='invokes a graphical interface',
                         action='store_true')
@@ -30,8 +24,6 @@ def parser_arguments(args):
 
     if args.dictionary_compilation != library_default:
         change_dictionary()
-    elif args.dictionary_export != dictionary_default:
-        print('dict_export')
     elif args.GUI:
         GUI.main_gui()
     elif args.console:
