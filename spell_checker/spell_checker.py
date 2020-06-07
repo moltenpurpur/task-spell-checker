@@ -1,6 +1,5 @@
 import re
 from spell_checker import n_grams, utils
-import main
 
 NGRAMS = {1: n_grams.ALPH,
           2: n_grams.BIGRAMS,
@@ -8,10 +7,10 @@ NGRAMS = {1: n_grams.ALPH,
           4: n_grams.FOURGRAMS}
 
 
-def spell_checker(big_dict, letter_dict, word):
+def spell_checker(big_dict: dict, letter_dict: dict, word: str):
     correct = []
     word = word.lower()
-    wrong_teg = make_teg(word)
+    wrong_teg = make_tag(word)
     if big_dict.get(wrong_teg):
         words = utils.make_list(big_dict.get(wrong_teg))
         correct += words
@@ -45,63 +44,65 @@ def spell_checker(big_dict, letter_dict, word):
                               possible_mistakes.get(correct_word),
                               correct_word)
     return write_mistakes(word,
-                          None,
+                          [],
                           possible_mistakes.get(correct_word),
                           correct_word)
 
 
-def make_teg(word):
+def make_tag(word: str) -> str:
     spell_teg = ''
-    i = 0
+    position = 0
     length = len(word)
-    while i != length:
+    while position != length:
         for number in [4, 3, 2, 1]:
-            spell_teg, i, done = part_teg(spell_teg, word,
-                                          i, number, length)
-            if done or i == length:
+            spell_teg, position, done = part_tag(spell_teg, word,
+                                                 position, number, length)
+            if done or position == length:
                 break
     return spell_teg
 
 
-def part_teg(spell_teg, word, i, number, length):
-    teg = find_gram(word, i, number, length)
+def part_tag(spell_teg: str, word: str, position: int, number: int,
+             length: int) -> (str, int, bool):
+    teg = find_gram(word, position, number, length)
     if teg is None:
-        return spell_teg, i, False
+        return spell_teg, position, False
     else:
         spell_teg += teg
-        i += number
-        return spell_teg, i, True
+        position += number
+        return spell_teg, position, True
 
 
-def find_gram(word, index, number, length):
-    if index <= length - number:
-        word_part = word[index: index + number]
-        if number != 1 and word_part == word[index] * number:
-            return word[index]
+def find_gram(word: str, position: int, number: int, length: int) -> str:
+    if position <= length - number:
+        word_part = word[position: position + number]
+        if number != 1 and word_part == word[position] * number:
+            return word[position]
         else:
             return NGRAMS.get(number).get(word_part)
 
 
-def possible_letter_and_length(teg, word, wrong_teg, letter_dict):
+def possible_letter_and_length(teg: str, word: str, wrong_teg: str,
+                               letter_dict: dict) -> (int, bool):
     possible_letter = teg[0] in letter_dict[word[0]]
     possible_length = abs(len(wrong_teg) - len(teg)) <= 2
     return not (possible_letter and possible_length)
 
 
-def levenshtein(a, b, flag):
-    f = []
-    len_a = len(a)
-    len_b = len(b)
+def levenshtein(string_a: str, string_b: str, flag: bool):
+    long = []
+    len_a = len(string_a)
+    len_b = len(string_b)
     miss = ''
     for i in range(len_a + 1):
-        f.append([i + j if i * j == 0 else 0 for j in range(len_b + 1)])
+        long.append([i + j if i * j == 0 else 0 for j in range(len_b + 1)])
     for i in range(1, len_a + 1):
         for j in range(1, len_b + 1):
-            if a[i - 1] == b[j - 1]:
-                f[i][j] = f[i - 1][j - 1]
+            if string_a[i - 1] == string_b[j - 1]:
+                long[i][j] = long[i - 1][j - 1]
             else:
-                f[i][j] = 1 + min(f[i - 1][j], f[i][j - 1],
-                                  f[i - 1][j - 1])
+                long[i][j] = 1 + min(long[i - 1][j], long[i][j - 1],
+                                     long[i - 1][j - 1])
                 if flag and i - j == 0:
                     space = ', ' if miss else ' '
                     miss += space + str(i)
@@ -112,28 +113,30 @@ def levenshtein(a, b, flag):
             space = ', ' if miss else ' '
             miss += space + str(o)
     if flag:
-        return f[len(a)][len(b)], miss
-    return f[len(a)][len(b)]
+        return long[len(string_a)][len(string_b)], miss
+    return long[len(string_a)][len(string_b)]
 
 
-def write_mistakes(wrong, possible_variants, mistakes='', correct=''):
+def write_mistakes(wrong: str, possible_variants: list, mistakes='',
+                   correct='') -> str:
     if not mistakes:
-        return f'{wrong} - Correct sentences\n'
+        return ''
+        # return f'{wrong} - Correct sentences\n'
     if possible_variants:
         return write_possible_mistakes(wrong,
                                        possible_variants)
-    s = 's' if int(re.sub(r'[^0-9]', '', mistakes)) > 10 else ''
-    return f'{wrong} - Mistake{s} in{mistakes} letter{s}, ' \
+    apostrophe = 's' if int(re.sub(r'[^0-9]', '', mistakes)) > 10 else ''
+    return f'{wrong} - Mistake{apostrophe} in{mistakes} letter{apostrophe}, ' \
            f'maybe you mean -> {correct}\n'
 
 
-def write_possible_mistakes(wrong, possible_variants):
-    string = ''
-    string += f'{wrong} - Some variants:\n'
+def write_possible_mistakes(wrong: str, possible_variants: list) -> str:
+    result = ''
+    result += f'{wrong} - Some variants:\n'
     for word in possible_variants:
         if word[1] == '':
             word[1] = ' ' + str(len(word[0]))
-        s = 's' if int(re.sub(r'[^0-9]', '', word[1])) > 10 else ''
-        string += f'    Mistake{s} in{word[1]} letter{s}, ' \
+        apostrophe = 's' if int(re.sub(r'[^0-9]', '', word[1])) > 10 else ''
+        result += f'    Mistake{apostrophe} in{word[1]} letter{apostrophe}, ' \
                   f'maybe you mean -> {word[0]}\n'
-    return string
+    return result
