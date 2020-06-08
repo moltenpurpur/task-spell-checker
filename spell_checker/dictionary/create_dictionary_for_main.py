@@ -1,4 +1,4 @@
-from checker import utils
+from spell_checker.checker import utils
 
 
 def create_dictionary(dict_path: str) -> dict:
