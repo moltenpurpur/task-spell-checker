@@ -1,5 +1,5 @@
 import unittest
-from checker import spell_checker, utils
+from checker import checker, utils
 from dictionary import create_dictionary_for_main as cr_dict
 from dictionary import dictionary_compilation as dict_comp
 
@@ -28,14 +28,14 @@ class TestSpellChecker(unittest.TestCase):
         test_dict = {'апф': ['обв'], 'а': ['о'], 'ап': ['об']}
         test_litter_d = {'о': ['а'], 'a': ['a']}
         test_word = 'абв'
-        self.spell_checker = spell_checker.spell_checker(
+        self.spell_checker = checker.spell_checker(
             test_dict, test_litter_d, test_word)
         self.true = 'абв - Mistake in 1 letter, maybe you mean -> обв\n'
         self.assertEqual(self.spell_checker, self.true)
 
     def test_make_teg(self):
         test = 'какое-тослово'
-        self.make_teg = spell_checker.make_tag(test)
+        self.make_teg = checker.make_tag(test)
         self.true = 'какаитаслафа'
         self.assertEqual(self.make_teg, self.true)
 
@@ -45,10 +45,10 @@ class TestSpellChecker(unittest.TestCase):
         test_i = 1
         test_number = 1
         test_length = 6
-        self.part_tag = spell_checker.part_tag(test_spell_teg,
-                                               test_word, test_i,
-                                               test_number,
-                                               test_length)
+        self.part_tag = checker.part_tag(test_spell_teg,
+                                         test_word, test_i,
+                                         test_number,
+                                         test_length)
         self.true = ('паукама', 2, True)
         self.assertEqual(self.part_tag, self.true)
 
@@ -57,27 +57,27 @@ class TestSpellChecker(unittest.TestCase):
         test_i = 1
         test_number = 1
         test_length = 6
-        self.find_gram = spell_checker.find_gram(test_word,
-                                                 test_i,
-                                                 test_number,
-                                                 test_length)
+        self.find_gram = checker.find_gram(test_word,
+                                           test_i,
+                                           test_number,
+                                           test_length)
         self.true = 'а'
         self.assertEqual(self.find_gram, self.true)
 
     def test_possible_letter_and_length(self):
-        self.poss_l = spell_checker.possible_letter_and_length(
+        self.poss_l = checker.possible_letter_and_length(
             'римскии', 'римский', 'римскии',
             {'р': ['р', 'с']})
         self.assertEqual(self.poss_l, False)
 
     def test_length_optimization(self):
-        self.poss_l = spell_checker.possible_letter_and_length(
+        self.poss_l = checker.possible_letter_and_length(
             'абвгде', 'абвг', 'абв',
             {'а': ['а']})
         self.assertEqual(self.poss_l, True)
 
     def test_letter_optimization(self):
-        self.poss_l = spell_checker.possible_letter_and_length(
+        self.poss_l = checker.possible_letter_and_length(
             'обвгде', 'абвг', 'абв',
             {'а': ['а']})
         self.assertEqual(self.poss_l, True)
@@ -86,9 +86,9 @@ class TestSpellChecker(unittest.TestCase):
         test_a = 'слово'
         test_b = 'неслово'
         test_flag = True
-        self.levenshtein = spell_checker.levenshtein(test_a,
-                                                     test_b,
-                                                     test_flag)
+        self.levenshtein = checker.levenshtein(test_a,
+                                               test_b,
+                                               test_flag)
         self.true = (2, ' 1, 2, 3, 4, 6, 7')
         self.assertEqual(self.levenshtein, self.true)
 
@@ -96,20 +96,20 @@ class TestSpellChecker(unittest.TestCase):
         test_a = 'слово'
         test_b = 'неслово'
         test_flag = False
-        self.levenshtein = spell_checker.levenshtein(test_a,
-                                                     test_b,
-                                                     test_flag)
+        self.levenshtein = checker.levenshtein(test_a,
+                                               test_b,
+                                               test_flag)
         self.true = 2
         self.assertEqual(self.levenshtein, self.true)
 
     def test_write_mistake(self):
-        self.string = spell_checker.write_mistakes('абв', [], '4',
+        self.string = checker.write_mistakes('абв', [], '4',
                                                    'абвг')
         self.true = 'абв - Mistake in 4 letter, maybe you mean -> абвг\n'
         self.assertEqual(self.string, self.true)
 
     def test_no_mistakes(self):
-        self.string = spell_checker.write_mistakes('абв', [], '', '')
+        self.string = checker.write_mistakes('абв', [], '', '')
         self.true = ''
         self.assertEqual(self.string, self.true)
 

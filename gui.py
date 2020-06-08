@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 import sys
 from dictionary import create_dictionary_for_main as create_dict
 from dictionary import dictionary_compilation
-from checker import utils, spell_checker
+from checker import utils, checker
 
 
 class MainWindow(QWidget):
@@ -66,13 +66,13 @@ class MainWindow(QWidget):
         if len(self.text) > self.limit:
             limit_text = self.text[0:self.limit + 1]
             for word in limit_text:
-                self.result_string += spell_checker.spell_checker(
+                self.result_string += checker.spell_checker(
                     self.dictionary,
                     self.letter_dict,
                     word)
         else:
             for word in self.text:
-                self.result_string += spell_checker.spell_checker(
+                self.result_string += checker.spell_checker(
                     self.dictionary,
                     self.letter_dict,
                     word)
