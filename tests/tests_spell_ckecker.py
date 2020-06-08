@@ -1,7 +1,7 @@
 import unittest
-from checker import checker, utils
-from dictionary import create_dictionary_for_main as cr_dict
-from dictionary import dictionary_compilation as dict_comp
+from spell_checker.checker import checker, utils
+from spell_checker.dictionary import dictionary_compilation as dict_comp, \
+    create_dictionary_for_main as cr_dict
 
 
 class TestMain(unittest.TestCase):

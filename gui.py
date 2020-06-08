@@ -1,9 +1,9 @@
 import shutil
 from PyQt5.QtWidgets import *
 import sys
-from dictionary import create_dictionary_for_main as create_dict
-from dictionary import dictionary_compilation
-from checker import utils, checker
+from spell_checker.dictionary import dictionary_compilation, \
+    create_dictionary_for_main as create_dict
+from spell_checker.checker import checker, utils
 
 
 class MainWindow(QWidget):
