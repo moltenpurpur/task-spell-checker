@@ -1,7 +1,7 @@
 import argparse
-from spell_checker.dictionary import dictionary_compilation, \
-    create_dictionary_for_main as create_dict
-from spell_checker.checker import checker, utils
+from spellchecker_.dictionary import dictionary_compilation
+from spellchecker_.dictionary import create_dictionary_for_main as create_dict
+from spellchecker_.checker import checker, utils
 import gui
 
 

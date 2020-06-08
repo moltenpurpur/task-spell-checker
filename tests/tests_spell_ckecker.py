@@ -1,6 +1,6 @@
 import unittest
-from spell_checker.checker import checker, utils
-from spell_checker.dictionary import dictionary_compilation as dict_comp, \
+from spellchecker_.checker import checker, utils
+from spellchecker_.dictionary import dictionary_compilation as dict_comp, \
     create_dictionary_for_main as cr_dict
 
 
