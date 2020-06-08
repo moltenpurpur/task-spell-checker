@@ -1,6 +1,6 @@
 import re
 import os
-from spell_checker import spell_checker
+from checker import checker
 
 
 def file_reader(filename: list, library: str) -> set:
@@ -32,7 +32,7 @@ def create_dict(correct_test_words: set) -> dict:
     dictionary = {}
     for word in correct_test_words:
         word = word.lower()
-        teg = spell_checker.make_tag(word)
+        teg = checker.make_tag(word)
         if teg == '':
             continue
         if teg not in dictionary.keys():
