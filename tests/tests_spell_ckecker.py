@@ -1,7 +1,7 @@
 import unittest
-from spellchecker_.checker import checker, utils
-from spellchecker_.dictionary import dictionary_compilation as dict_comp, \
-    create_dictionary_for_main as cr_dict
+from spellchecker.checker import checker, utils, dictionary_creator, writer, \
+    tag_creator
+from spellchecker.dictionary import dictionary_compilation as dict_comp
 
 
 class TestMain(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestSpellChecker(unittest.TestCase):
 
     def test_make_teg(self):
         test = 'какое-тослово'
-        self.make_teg = checker.make_tag(test)
+        self.make_teg = tag_creator.make_full_tag(test)
         self.true = 'какаитаслафа'
         self.assertEqual(self.make_teg, self.true)
 
@@ -45,10 +45,10 @@ class TestSpellChecker(unittest.TestCase):
         test_i = 1
         test_number = 1
         test_length = 6
-        self.part_tag = checker.part_tag(test_spell_teg,
-                                         test_word, test_i,
-                                         test_number,
-                                         test_length)
+        self.part_tag = tag_creator.make_part_tag(test_spell_teg,
+                                                  test_word, test_i,
+                                                  test_number,
+                                                  test_length)
         self.true = ('паукама', 2, True)
         self.assertEqual(self.part_tag, self.true)
 
@@ -57,10 +57,10 @@ class TestSpellChecker(unittest.TestCase):
         test_i = 1
         test_number = 1
         test_length = 6
-        self.find_gram = checker.find_gram(test_word,
-                                           test_i,
-                                           test_number,
-                                           test_length)
+        self.find_gram = tag_creator.find_gram(test_word,
+                                               test_i,
+                                               test_number,
+                                               test_length)
         self.true = 'а'
         self.assertEqual(self.find_gram, self.true)
 
@@ -103,13 +103,13 @@ class TestSpellChecker(unittest.TestCase):
         self.assertEqual(self.levenshtein, self.true)
 
     def test_write_mistake(self):
-        self.string = checker.write_mistakes('абв', [], '4',
-                                                   'абвг')
+        self.string = writer.write_mistakes('абв', [], '4',
+                                            'абвг')
         self.true = 'абв - Mistake in 4 letter, maybe you mean -> абвг\n'
         self.assertEqual(self.string, self.true)
 
     def test_no_mistakes(self):
-        self.string = checker.write_mistakes('абв', [], '', '')
+        self.string = writer.write_mistakes('абв', [], '', '')
         self.true = ''
         self.assertEqual(self.string, self.true)
 
@@ -141,12 +141,12 @@ class TestCreateDictionaryForMain(unittest.TestCase):
         self.correct_words = {'пурку': 'бурку',
                               'сакасаф': ['заказав', 'заказов'],
                               'кфас': 'квас'}
-        self.dict = cr_dict.create_dictionary(r'test_dict.txt')
+        self.dict = dictionary_creator.create_dictionary(r'test_dict.txt')
         self.assertEqual(self.dict, self.correct_words)
 
     def test_letter_dictionary(self):
         test = {'проверка': 'проверка'}
-        self.letter_dictionary = cr_dict.letter_dictionary(test)
+        self.letter_dictionary = dictionary_creator.letter_dictionary(test)
         self.true = {'п': ['п'], 'р': ['п'], 'о': ['п'], 'в': ['п'],
                      'е': ['п'], 'к': ['п'], 'а': ['п']}
         self.assertEqual(self.letter_dictionary, self.true)

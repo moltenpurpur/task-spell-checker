@@ -1,13 +1,12 @@
 import argparse
-from spellchecker.dictionary import dictionary_compilation
-from spellchecker.dictionary import create_dictionary_for_main as create_dict
-from spellchecker.checker import checker, utils
+from spellchecker.dictionary.dictionary_compilation import DictionaryCompiler
+from spellchecker.checker import checker, utils, dictionary_creator
 import gui
 
 
 def parser_arguments():
-    library_default = r'library\\'
-    dictionary_default = r'dictionary.txt'
+    library_default = r'library//'
+    dictionary_default = r'dictionary.json'
     input_text_file = r'input_text_file.txt'
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
@@ -16,7 +15,7 @@ def parser_arguments():
                                                   help='select .txt files to '
                                                        'compile the dictionary'
                                                        '(Default: library//, '
-                                                       'dictionary.txt)',
+                                                       'dictionary.json)',
                                                   )
     parser_append_compile.set_defaults(function=compile_dictionary)
 
@@ -26,11 +25,16 @@ def parser_arguments():
                                        help='path to text or text folder'
                                             '(Default: library//)',
                                        dest='library')
+    parser_append_compile.add_argument('--encoding',
+                                       default='utf-8',
+                                       type=str,
+                                       help='encoding (Default: utf-8)',
+                                       dest='encoding')
     parser_append_compile.add_argument('--dictionary',
                                        default=dictionary_default,
                                        type=str,
                                        help='dictionary output file '
-                                            '(Default: dictionary.txt)',
+                                            '(Default: dictionary.json)',
                                        dest='dictionary')
 
     parser_append_check = subparsers.add_parser('check',
@@ -41,7 +45,7 @@ def parser_arguments():
                                      default=dictionary_default,
                                      type=str,
                                      help='path to dictionary'
-                                          '(Default: dictionary.txt)',
+                                          '(Default: dictionary.json)',
                                      dest='dictionary')
     parser_append_check.add_argument('--input_file',
                                      default=input_text_file,
@@ -62,7 +66,8 @@ def call_gui(args):
 
 
 def compile_dictionary(args):
-    dictionary_compilation.main_dict(args.library, args.dictionary)
+    DictionaryCompiler.build_tag_map(args.library, encoding=args.encoding,
+                                     dictionary_paths=args.dictionary)
 
 
 def check_file(args):
@@ -72,8 +77,8 @@ def check_file(args):
         while line:
             result_string = ''
             line = utils.make_correct_line(line)
-            dictionary = create_dict.create_dictionary(args.dictionary)
-            letter_dict = create_dict.letter_dictionary(dictionary)
+            dictionary = dictionary_creator.create_dictionary(args.dictionary)
+            letter_dict = dictionary_creator.letter_dictionary(dictionary)
             for word in line:
                 result_string += checker.spell_checker(
                     dictionary,

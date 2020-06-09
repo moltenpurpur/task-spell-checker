@@ -1,57 +1,65 @@
-import re
 import os
-from spellchecker.checker import checker
+import re
+import json
+from collections import defaultdict
+from spellchecker.checker import tag_creator
 
 
-def file_reader(filename: list, library: str) -> set:
-    words = set()
-    for file in filename:
-        words = give_words_from_file(file, library)
-    return words
+class DictionaryCompiler:
+    NOT_WORD_REGEX = re.compile(r'[^а-яА-ЯёЁ\- ]+')
 
+    def __init__(self, *library_paths, encoding: str = 'utf-8'):
+        self.library_paths = library_paths
+        self.file_queue = [*self.library_paths]
+        self.encoding = encoding
+        self.library = list()
 
-def give_words_from_file(file: str, library: str) -> set:
-    with open(library + file, encoding="utf-8") as text:
-        for line in text:
-            words = find_words_in_line(line, words)
-    return words
+    def collect_texts(self):
+        library = []
+        while self.file_queue:
+            path = self.file_queue.pop(0)
+            path = os.path.abspath(path)
+            if os.path.isdir(path):
+                for subpath in os.listdir(path):
+                    self.file_queue.append(path + '\\' + subpath)
+            elif path.endswith('.txt'):
+                library.append(path)
+        return library
 
+    def extract_words_from_file(self, path):
+        words = set()
+        with open(path, encoding=self.encoding) as f:
+            try:
+                for line in f:
+                    for word in self.NOT_WORD_REGEX.sub('', line).split():
+                        words.add(word.lower())
+            except Exception:
+                print(f'something is wrong with your text: {f.name}, '
+                      f'the program cannot read it')
+        return words
 
-def find_words_in_line(line: str, words: set) -> set:
-    reg = re.compile('[^а-яА-ЯёЁ\\- ]')
-    line = reg.sub('', line)
-    words_in_line = line.split()
-    for word in words_in_line:
-        if word[0] == '-':
-            continue
-        words.add(word.lower())
-    return words
+    @staticmethod
+    def compile(words: set) -> dict:
+        tag_map = defaultdict(list)
+        for word in words:
+            tag = tag_creator.make_full_tag(word)
+            if not tag:
+                continue
+            tag_map[tag].append(word)
+        return tag_map
 
+    @staticmethod
+    def write_tag_map_in_file(tag_map, file='dictionary.json'):
+        with open(file, 'w', encoding='utf-8') as f:
+            json.dump(tag_map, f, ensure_ascii=False)
 
-def create_dict(correct_test_words: set) -> dict:
-    dictionary = {}
-    for word in correct_test_words:
-        word = word.lower()
-        teg = checker.make_tag(word)
-        if teg == '':
-            continue
-        if teg not in dictionary.keys():
-            dictionary[teg] = word
-        else:
-            dictionary[teg] += ', ' + word
-    return dictionary
-
-
-def write_in_file(dictionary: dict, dict_path):
-    for key in dictionary.keys():
-        key_word = dictionary.get(key)
-        with open(dict_path, 'w', encoding='utf8') as file_dict:
-            file_dict.write(key + ': ' + key_word + '\n')
-
-
-def main_dict(library: str, dict_path: str):
-    files = os.listdir(library)
-    words = file_reader(files, library)
-    dictionary = create_dict(words)
-    write_in_file(dictionary, dict_path)
-
+    @classmethod
+    def build_tag_map(cls, *library_paths, encoding: str = 'utf-8',
+                      dictionary_paths):
+        compiler = cls(*library_paths, encoding=encoding)
+        words = set()
+        for path in compiler.collect_texts():
+            words |= compiler.extract_words_from_file(path)
+        tag_map = cls.compile(words)
+        return DictionaryCompiler.write_tag_map_in_file(tag_map,
+                                                        dictionary_paths)
