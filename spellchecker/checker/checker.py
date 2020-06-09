@@ -9,13 +9,12 @@ def spell_checker(big_dict: dict, letter_dict: dict, word: str):
         words = utils.make_list(big_dict.get(wrong_teg))
         correct += words
     else:
-        for teg in big_dict.keys():
+        for teg in big_dict:
             if possible_letter_and_length(teg, word,
                                           wrong_teg,
                                           letter_dict):
                 continue
-            test = levenshtein(wrong_teg, teg, False) == 1
-            if test == 1:
+            if levenshtein(wrong_teg, teg, False) == 1:
                 words = utils.make_list(big_dict.get(teg))
                 correct += words
     minimum = float('inf')
@@ -32,19 +31,14 @@ def spell_checker(big_dict: dict, letter_dict: dict, word: str):
             minimum = distance
             correct_word = variant
             possible_mistakes[correct_word] = f
-    if len(correct_words) > 2:
-        return writer.write_mistakes(word,
-                                     correct_words,
-                                     possible_mistakes.get(correct_word),
-                                     correct_word)
     return writer.write_mistakes(word,
-                                 [],
+                                 correct_words,
                                  possible_mistakes.get(correct_word),
                                  correct_word)
 
 
 def possible_letter_and_length(teg: str, word: str, wrong_teg: str,
-                               letter_dict: dict) -> (int, bool):
+                               letter_dict: dict) -> bool:
     possible_letter = teg[0] in letter_dict[word[0]]
     possible_length = abs(len(wrong_teg) - len(teg)) <= 2
     return not (possible_letter and possible_length)
