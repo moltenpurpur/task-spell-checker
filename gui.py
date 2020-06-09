@@ -1,9 +1,8 @@
 import shutil
 from PyQt5.QtWidgets import *
 import sys
-from spellchecker.dictionary import dictionary_compilation, \
-    create_dictionary_for_main as create_dict
-from spellchecker.checker import checker, utils
+from spellchecker.dictionary.dictionary_compilation import DictionaryCompiler
+from spellchecker.checker import checker, utils, dictionary_creator
 
 
 class MainWindow(QWidget):
@@ -11,8 +10,10 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.grid = QGridLayout()
-        self.dictionary = create_dict.create_dictionary(r'dictionary.txt')
-        self.letter_dict = create_dict.letter_dictionary(self.dictionary)
+        self.dictionary = dictionary_creator.create_dictionary(
+            r'dictionary.json')
+        self.letter_dict = dictionary_creator.letter_dictionary(
+            self.dictionary)
 
         self.input_label = QLabel('Input')
         self.output_label = QLabel('Output')
@@ -128,7 +129,8 @@ class AddDictionary(QMainWindow):
                                      QMessageBox.Yes | QMessageBox.No,
                                      QMessageBox.No)
         if reply:
-            dictionary_compilation.main_dict()
+            DictionaryCompiler.build_tag_map(r'library//', encoding='utf-8',
+                                             dictionary_paths=r'dictionary.json')
         else:
             pass
 
@@ -169,4 +171,3 @@ def main_gui():
     app = QApplication(sys.argv)
     ex = MainWindow()
     sys.exit(app.exec_())
-
