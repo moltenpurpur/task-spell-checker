@@ -1,7 +1,6 @@
 import unittest
-from spellchecker.checker import checker, utils, dictionary_creator, writer, \
+from spellchecker.checker import checker, utils, dictionary_utils, writer, \
     tag_creator
-from spellchecker.dictionary import dictionary_compilation as dict_comp
 
 
 class TestMain(unittest.TestCase):
@@ -120,33 +119,17 @@ class TestSpellChecker(unittest.TestCase):
             '    Mistake in 3 letter, maybe you mean -> раздраженно\n') + s
 
 
-class TestDictionaryCompilation(unittest.TestCase):
-    def test_find_words_in_line(self):
-        self.words = set()
-        self.line = 'Зачем ты начал эту проверку?'
-        self.word_find = dict_comp.find_words_in_line(self.line, self.words)
-        self.right = {'зачем', 'ты', 'начал', 'эту', 'проверку'}
-        self.assertEqual(self.word_find, self.right)
-
-    def test_find_words_in_line_english(self):
-        self.words = set()
-        self.line = 'Зачем you начал this проверку?'
-        self.word_find = dict_comp.find_words_in_line(self.line, self.words)
-        self.right = {'зачем', 'начал', 'проверку'}
-        self.assertEqual(self.word_find, self.right)
-
-
 class TestCreateDictionaryForMain(unittest.TestCase):
     def test_create_dictionary(self):
         self.correct_words = {'пурку': 'бурку',
                               'сакасаф': ['заказав', 'заказов'],
                               'кфас': 'квас'}
-        self.dict = dictionary_creator.create_dictionary(r'test_dict.txt')
+        self.dict = dictionary_utils.create_dictionary(r'test_dict.txt')
         self.assertEqual(self.dict, self.correct_words)
 
     def test_letter_dictionary(self):
         test = {'проверка': 'проверка'}
-        self.letter_dictionary = dictionary_creator.letter_dictionary(test)
+        self.letter_dictionary = dictionary_utils.letter_dictionary(test)
         self.true = {'п': ['п'], 'р': ['п'], 'о': ['п'], 'в': ['п'],
                      'е': ['п'], 'к': ['п'], 'а': ['п']}
         self.assertEqual(self.letter_dictionary, self.true)

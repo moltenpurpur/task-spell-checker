@@ -1,6 +1,6 @@
 import argparse
-from spellchecker.dictionary.dictionary_compilation import DictionaryCompiler
-from spellchecker.checker import checker, utils, dictionary_creator
+from spellchecker.dictionary_compilation import DictionaryCompiler
+from spellchecker.checker import checker, utils, dictionary_utils
 import gui
 
 
@@ -39,7 +39,7 @@ def parser_arguments():
 
     parser_append_check = subparsers.add_parser('check',
                                                 help='checking text from file')
-    parser_append_check.set_defaults(function=check_file)
+    parser_append_check.set_defaults(function=spell_check)
 
     parser_append_check.add_argument('--dictionary ',
                                      default=dictionary_default,
@@ -70,21 +70,17 @@ def compile_dictionary(args):
                                      dictionary_paths=args.dictionary)
 
 
-def check_file(args):
+def spell_check(args):
     with open(args.file) as file:
-        line = file.readline()
-
-        while line:
-            result_string = ''
+        for line in file:
+            result_string = []
             line = utils.make_correct_line(line)
-            dictionary = dictionary_creator.create_dictionary(args.dictionary)
-            letter_dict = dictionary_creator.letter_dictionary(dictionary)
+            dictionary = dictionary_utils.create_dictionary(args.dictionary)
+            letter_dict = dictionary_utils.letter_dictionary(dictionary)
             for word in line:
-                result_string += checker.spell_checker(
-                    dictionary,
-                    letter_dict,
-                    word)
-            line = file.readline()
+                result_string.append(checker.spell_checker(dictionary,
+                                                           letter_dict,
+                                                           word))
             print(result_string)
 
 
