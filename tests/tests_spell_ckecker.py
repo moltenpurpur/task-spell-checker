@@ -64,19 +64,19 @@ class TestSpellChecker(unittest.TestCase):
         self.assertEqual(self.find_gram, self.true)
 
     def test_possible_letter_and_length(self):
-        self.poss_l = checker.possible_letter_and_length(
+        self.poss_l = checker.find_possible_length(
             'римскии', 'римский', 'римскии',
             {'р': ['р', 'с']})
         self.assertEqual(self.poss_l, False)
 
     def test_length_optimization(self):
-        self.poss_l = checker.possible_letter_and_length(
+        self.poss_l = checker.find_possible_length(
             'абвгде', 'абвг', 'абв',
             {'а': ['а']})
         self.assertEqual(self.poss_l, True)
 
     def test_letter_optimization(self):
-        self.poss_l = checker.possible_letter_and_length(
+        self.poss_l = checker.find_possible_length(
             'обвгде', 'абвг', 'абв',
             {'а': ['а']})
         self.assertEqual(self.poss_l, True)

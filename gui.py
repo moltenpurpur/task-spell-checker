@@ -12,8 +12,6 @@ class MainWindow(QWidget):
         self.grid = QGridLayout()
         self.dictionary = dictionary_utils.create_dictionary(
             r'dictionary.json')
-        self.letter_dict = dictionary_utils.letter_dictionary(
-            self.dictionary)
 
         self.input_label = QLabel('Input')
         self.output_label = QLabel('Output')
@@ -68,15 +66,11 @@ class MainWindow(QWidget):
             limit_text = self.text[0:self.limit + 1]
             for word in limit_text:
                 self.result_string += checker.spell_checker(
-                    self.dictionary,
-                    self.letter_dict,
-                    word)
+                    self.dictionary, word)
         else:
             for word in self.text:
                 self.result_string += checker.spell_checker(
-                    self.dictionary,
-                    self.letter_dict,
-                    word)
+                    self.dictionary, word)
         self.output_text.append(self.result_string)
 
     def add_dictionary(self):
@@ -129,8 +123,10 @@ class AddDictionary(QMainWindow):
                                      QMessageBox.Yes | QMessageBox.No,
                                      QMessageBox.No)
         if reply:
-            DictionaryCompiler.build_tag_map(r'library//', encoding='utf-8',
-                                             dictionary_paths=r'dictionary.json')
+            DictionaryCompiler.build_tag_map(r'library//',
+                                             encoding='utf-8',
+                                             dictionary_paths=
+                                             r'dictionary.json')
         else:
             pass
 

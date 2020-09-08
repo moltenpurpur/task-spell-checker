@@ -2,7 +2,7 @@ import os
 import re
 import json
 from collections import defaultdict
-from spellchecker.checker import tag_creator
+from spellchecker.checker import tag_creator, n_grams
 
 
 class DictionaryCompiler:
@@ -40,12 +40,15 @@ class DictionaryCompiler:
 
     @staticmethod
     def compile(words: set) -> dict:
-        tag_map = defaultdict(list)
-        for word in words:
-            tag = tag_creator.make_full_tag(word)
-            if not tag:
-                continue
-            tag_map[tag].append(word)
+        tag_map = defaultdict()
+        for letter in n_grams.ALPH:
+            d = defaultdict(list)
+            for word in words:
+                tag = tag_creator.make_full_tag(word)
+                if tag!='' and tag[0]==letter:
+                    d[tag].append(word)
+
+            tag_map[letter] = d
         return tag_map
 
     @staticmethod

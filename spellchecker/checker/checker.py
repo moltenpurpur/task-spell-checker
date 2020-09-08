@@ -1,47 +1,47 @@
 from spellchecker.checker import tag_creator, utils, writer
 
 
-def spell_checker(big_dict: dict, letter_dict: dict, word: str):
+def spell_checker(big_dict: dict, word: str):
     correct = []
     word = word.lower()
     wrong_teg = tag_creator.make_full_tag(word)
-    if big_dict.get(wrong_teg):
-        words = utils.make_list(big_dict.get(wrong_teg))
-        correct += words
-    else:
-        for teg in big_dict:
-            if possible_letter_and_length(teg, word,
-                                          wrong_teg,
-                                          letter_dict):
-                continue
-            if levenshtein(wrong_teg, teg, False) == 1:
-                words = utils.make_list(big_dict.get(teg))
-                correct += words
+
+    if word[0] in big_dict.keys():
+        if big_dict[word[0]].get(wrong_teg):
+            words = utils.make_list(big_dict[word[0]][wrong_teg])
+            correct += words
+        else:
+            for teg in big_dict[word[0]]:
+                if find_possible_length(teg, wrong_teg):
+                    continue
+                if levenshtein(wrong_teg, teg, False) == 1:
+                    words = utils.make_list(big_dict[word[0]].get(teg))
+                    correct += words
+
     minimum = float('inf')
     possible_mistakes = {}
     correct_word = ''
     correct_words = []
+
     for variant in correct:
-        distance, f = levenshtein(variant, word, True)
+        distance, places_of_mistakes = levenshtein(variant, word, True)
         if distance == minimum:
-            correct_words.append([variant, f])
+            correct_words.append([variant, places_of_mistakes])
             continue
         if distance < minimum:
-            correct_words = [[variant, f]]
+            correct_words = [[variant, places_of_mistakes]]
             minimum = distance
             correct_word = variant
-            possible_mistakes[correct_word] = f
+            possible_mistakes[correct_word] = places_of_mistakes
     return writer.write_mistakes(word,
                                  correct_words,
                                  possible_mistakes.get(correct_word),
                                  correct_word)
 
 
-def possible_letter_and_length(teg: str, word: str, wrong_teg: str,
-                               letter_dict: dict) -> bool:
-    possible_letter = teg[0] in letter_dict[word[0]]
-    possible_length = abs(len(wrong_teg) - len(teg)) <= 2
-    return not (possible_letter and possible_length)
+def find_possible_length(teg: str, wrong_teg: str) -> bool:
+    possible_len = abs(len(wrong_teg) - len(teg)) <= 2
+    return not possible_len
 
 
 def levenshtein(string_a: str, string_b: str, flag: bool):
@@ -70,5 +70,3 @@ def levenshtein(string_a: str, string_b: str, flag: bool):
     if flag:
         return long[len(string_a)][len(string_b)], miss
     return long[len(string_a)][len(string_b)]
-
-

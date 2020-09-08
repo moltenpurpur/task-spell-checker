@@ -76,11 +76,8 @@ def spell_check(args):
             result_string = []
             line = utils.make_correct_line(line)
             dictionary = dictionary_utils.create_dictionary(args.dictionary)
-            letter_dict = dictionary_utils.letter_dictionary(dictionary)
             for word in line:
-                result_string.append(checker.spell_checker(dictionary,
-                                                           letter_dict,
-                                                           word))
+                result_string.append(checker.spell_checker(dictionary, word))
             print(result_string)
 
 
