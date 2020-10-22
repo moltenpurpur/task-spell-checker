@@ -1,8 +1,7 @@
 import re
 
 
-def write_mistakes(wrong: str, possible_variants: list, mistakes='',
-                   correct='') -> str:
+def write_mistakes(wrong: str, possible_variants: list, mistakes='') -> str:
     result = ''
     if not mistakes:
         return ''

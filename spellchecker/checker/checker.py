@@ -35,8 +35,7 @@ def spell_checker(big_dict: dict, word: str):
             possible_mistakes[correct_word] = places_of_mistakes
     return writer.write_mistakes(word,
                                  correct_words,
-                                 possible_mistakes.get(correct_word),
-                                 correct_word)
+                                 possible_mistakes.get(correct_word))
 
 
 def find_possible_length(teg: str, wrong_teg: str) -> bool:
