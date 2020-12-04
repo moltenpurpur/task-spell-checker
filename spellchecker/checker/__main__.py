@@ -1,13 +1,14 @@
 import argparse
-from spellchecker.dictionary_compilation import DictionaryCompiler
-from spellchecker.checker import checker, utils, dictionary_utils
-import gui
+from spellchecker.dictionary.dictionary_compilation import DictionaryCompiler
+from spellchecker.checker import checker, utils
+from spellchecker.dictionary import dictionary_utils
+from spellchecker import gui
 
 
 def parser_arguments():
     library_default = r'library//'
     dictionary_default = r'dictionary.json'
-    input_text_file = r'input_text_file.txt'
+    input_text_file = r'../../input_text_file.txt'
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
 

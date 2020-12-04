@@ -1,8 +1,11 @@
 import shutil
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QPushButton, \
+    QTextEdit, QMainWindow, QLineEdit, QAction, QFileDialog, QMessageBox, \
+    QErrorMessage, QApplication
 import sys
-from spellchecker.dictionary_compilation import DictionaryCompiler
-from spellchecker.checker import checker, utils, dictionary_utils
+from spellchecker.dictionary.dictionary_compilation import DictionaryCompiler
+from spellchecker.checker import checker, utils
+from spellchecker.dictionary import dictionary_utils
 
 
 class MainWindow(QWidget):
@@ -11,7 +14,7 @@ class MainWindow(QWidget):
 
         self.grid = QGridLayout()
         self.dictionary = dictionary_utils.create_dictionary(
-            r'dictionary.json')
+            r'../dictionary.json')
 
         self.input_label = QLabel('Input')
         self.output_label = QLabel('Output')
@@ -109,10 +112,10 @@ class AddDictionary(QMainWindow):
         file_name = QFileDialog.getOpenFileName(self, 'Find file', '',
                                                 'Text files (*.txt)')[0]
         try:
-            shutil.copy(file_name, r'library\\')
+            shutil.copy(file_name, r'../library\\')
         except IOError as e:
             print("Unable to copy file. %s" % e)
-        except:
+        except Exception:
             print("Unexpected error:", sys.exc_info())
 
         self.selection_box()
@@ -123,10 +126,10 @@ class AddDictionary(QMainWindow):
                                      QMessageBox.Yes | QMessageBox.No,
                                      QMessageBox.No)
         if reply:
-            DictionaryCompiler.build_tag_map(r'library//',
-                                             encoding='utf-8',
-                                             dictionary_paths=
-                                             r'dictionary.json')
+            DictionaryCompiler.build_tag_map(
+                r'library//',
+                encoding='utf-8',
+                dictionary_paths=r'dictionary.json')
         else:
             pass
 
@@ -154,7 +157,7 @@ class Limit(QMainWindow):
         try:
             self.number = int(self.number)
             self.close()
-        except:
+        except Exception:
             self.le.clear()
             self.error_dialog.showMessage('Enter the number')
             self.error_dialog.exec_()
@@ -165,5 +168,5 @@ class Limit(QMainWindow):
 
 def main_gui():
     app = QApplication(sys.argv)
-    ex = MainWindow()
+    MainWindow()
     sys.exit(app.exec_())

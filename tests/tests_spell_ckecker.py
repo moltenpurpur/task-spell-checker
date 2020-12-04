@@ -1,6 +1,7 @@
 import unittest
-from spellchecker.checker import checker, utils, dictionary_utils, writer, \
+from spellchecker.checker import checker, utils, writer, \
     tag_creator
+from spellchecker.dictionary import dictionary_utils
 
 
 class TestCreateDictionaryForMain(unittest.TestCase):

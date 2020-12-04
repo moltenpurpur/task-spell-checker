@@ -20,8 +20,8 @@ class DictionaryCompiler:
             path = self.file_queue.pop(0)
             path = os.path.abspath(path)
             if os.path.isdir(path):
-                for subpath in os.listdir(path):
-                    self.file_queue.append(path + '\\' + subpath)
+                for sub_path in os.listdir(path):
+                    self.file_queue.append(path + '\\' + sub_path)
             elif path.endswith('.txt'):
                 library.append(path)
         return library
@@ -45,7 +45,7 @@ class DictionaryCompiler:
             d = defaultdict(list)
             for word in words:
                 tag = tag_creator.make_full_tag(word)
-                if tag!='' and tag[0]==letter:
+                if tag != '' and tag[0] == letter:
                     d[tag].append(word)
 
             tag_map[letter] = d
