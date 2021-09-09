@@ -14,7 +14,7 @@ class MainWindow(QWidget):
 
         self.grid = QGridLayout()
         self.dictionary = dictionary_utils.create_dictionary(
-            r'../dictionary.json')
+            r'dictionary.json')
 
         self.input_label = QLabel('Input')
         self.output_label = QLabel('Output')
