@@ -3,9 +3,7 @@
 The program excludes all characters except Cyrillic characters from the text.
 
 
-* "dictionary_compilation" - make dictionary
-* "checker" - it's spell checker
-* "spell-checker" - argument parser and start
+* "dictionary " - make dictionary
+* "checker / \_\_main__.py" - argument parser
 
 *Kovtun Ekaterina MEN - 291015 KB - 201*
-

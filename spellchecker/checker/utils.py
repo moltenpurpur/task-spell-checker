@@ -8,4 +8,3 @@ def make_correct_line(line: str) -> list:
 def make_list(word_string: str) -> list:
     word_list = str(word_string)
     return re.sub(r'[^а-яё\- ]', '', word_list).split()
-
